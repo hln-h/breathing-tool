@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">BreatheWithMe</string>
+    <string name="greeting_hello">Hello!</string>
+    <string name="greeting_question">How are you today?</string>
+    <string name="greeting_breathe">Let\'s take a moment out of our day to breathe…</string>
+    <string name="tap_here">Tap here to start..</string>
+    <string name="ready">ready</string>
+    <string name="inhale">inhale</string>
+    <string name="hold">hold</string>
+    <string name="exhale">exhale</string>
+    <string name="praise">great job!</string>
+    <string name="again">tap to breathe again</string>
+</resources>
