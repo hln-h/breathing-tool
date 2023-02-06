@@ -51,7 +51,6 @@ class MainActivity : ComponentActivity() {
 }
 
 
-
 @Composable
 fun ButtonAnimation(
     startAnimationDuration: Int = 1800,
@@ -66,24 +65,24 @@ fun ButtonAnimation(
     val scale = remember {
         Animatable(1f)
     }
-    var exhaleInhaleColor by remember {
-        mutableStateOf(CustomColor.LIGHT_BLUE)
+//    var exhaleInhaleColor by remember {
+//        mutableStateOf(CustomColor.LIGHT_BLUE)
+//    }
+    var exhaleInhaleText by remember {
+        mutableStateOf("")
     }
+
     val animateStateButtonColor =
-        buttonColor(exhaleInhaleColor, displayButton)
+        buttonColor(exhaleInhaleText, displayButton)
 
     var displayButtonText by remember {
         mutableStateOf(true)
-    }
-    var exhaleInhaleText by remember {
-        mutableStateOf("")
     }
 
 
     fun resetButton() {
         displayButtonText = true
         exhaleInhaleText = ""
-        exhaleInhaleColor = CustomColor.LIGHT_BLUE
     }
 
     val readyText = stringResource(R.string.ready)
@@ -103,7 +102,6 @@ fun ButtonAnimation(
             delay(delayTime)
             repeat(6) {
                 exhaleInhaleText = inhaleText
-                exhaleInhaleColor = CustomColor.PALE_BLUE
                 scale.animateTo(
                     breatheScaleDown,
                     animationSpec = tween(breathingAnimationDuration, easing = FastOutSlowInEasing),
@@ -111,7 +109,6 @@ fun ButtonAnimation(
                 exhaleInhaleText = holdText
                 delay(delayTime)
                 exhaleInhaleText = exhaleText
-                exhaleInhaleColor = CustomColor.PURPLE
                 scale.animateTo(
                     1.2f, animationSpec = tween(
                         breathingAnimationDuration, delayMillis = 200, easing = LinearEasing
@@ -178,26 +175,20 @@ fun ButtonAnimation(
 
 @Composable
 private fun buttonColor(
-    exhaleInhaleColor: CustomColor,
+    exhaleInhaleText: String,
     displayButton: Boolean
-) = when (exhaleInhaleColor) {
-    CustomColor.LIGHT_BLUE -> {
-        animateColorAsState(
-            targetValue = if (displayButton) Color(CustomColor.LIGHT_BLUE.color) else Color.White,
-            animationSpec = tween(2000, 0, LinearEasing)
-        )
-    }
-    CustomColor.PURPLE -> {
-        animateColorAsState(targetValue = Color(CustomColor.PURPLE.color),
-                animationSpec = tween(1000, 0, LinearEasing))
-    }
-    CustomColor.PALE_BLUE -> {
-        animateColorAsState(targetValue = Color(CustomColor.PALE_BLUE.color),
-                animationSpec = tween(1000, 0, LinearEasing))
-    }
-    else -> {
-        animateColorAsState(targetValue = Color(CustomColor.LIGHT_BLUE.color))
-    }
+) = if (exhaleInhaleText.isEmpty()) {
+    animateColorAsState(
+        targetValue = if (displayButton) Color(CustomColor.LIGHT_BLUE.color) else Color.White,
+        animationSpec = tween(2000, 0, LinearEasing)
+    )
+} else {
+    animateColorAsState(
+        targetValue = if (exhaleInhaleText == stringResource(id = R.string.inhale)) Color(
+            CustomColor.PALE_BLUE.color
+        ) else Color(CustomColor.PURPLE.color),
+        animationSpec = tween(2000, 300, LinearEasing)
+    )
 }
 
 
